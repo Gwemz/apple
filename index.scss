@@ -1,0 +1,774 @@
+*{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+body{
+  font-family:"Microsoft JhengHei","Helvetica","sans-serif";
+}
+a{
+  text-decoration:none;
+  color:#666;
+}
+$max-size:1070px;
+$medium-size:767px;
+$min-size:738px;
+$med-size:920px;
+@mixin onm{
+  @media screen and (max-width:$max-size){
+    @content;
+  }
+}
+@mixin ond{
+  @media screen and (max-width:$medium-size){
+    @content;
+  }
+}
+@mixin ons{
+  @media screen and (max-width:$min-size){
+    @content;
+  }
+}
+@mixin one{
+  @media screen and (max-width:$med-size){
+    @content;
+  }
+}
+
+$nav-map:(
+        "logo":20px,
+        "Mac":31px,
+        "iPad":30px,
+        "iPhone":48px,
+        "Watch":44px,
+        "TV":20px,
+        "Music":40px,
+        "support-big":57px,
+        "search":20px,
+        "bag":18px
+);
+$nav-small-map:(
+        "Mac":36px,
+        "iPad":35px,
+        "iPhone":58px,
+        "Watch":52px,
+        "TV":23px,
+        "Music":48px,
+        "Support":68px,
+        "search":22px,
+);
+//   清除浮动
+.row{
+  overflow:hidden;
+}
+//   将元素浮动
+.col{
+  float:left;
+}
+
+$running:0.3s;
+$late:0.2s;
+.bg{
+  width:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  overflow:hidden;
+  .zhezhao{
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:48px;
+    left:0;
+    z-index:10;
+    transform:translate3d(0,-100%,0);
+    &.active{
+      transform:translate3d(0,0,0);
+    }
+  }
+}
+$small-top:(
+1:48px,
+        2:40px,
+        3:50px
+);
+.top_head{
+  width:100%;
+  height:40px;
+  background-color: #444;
+  .content{
+    max-width:976px;
+    height:100%;
+    margin:0 auto;
+    text-align:right;
+    line-height:40px;
+    color:#a8a8aa;
+    font-size:12px;
+  }
+}
+.header{
+  position: relative;
+  width:100%;
+  background:rgba(0, 0, 0, 0.8);
+  z-index:10;
+
+  .header-inner{
+    max-width:980px;
+    margin:0 auto;
+    padding:0 22px;
+    overflow: hidden;
+    z-index:99999;
+    .header-search{
+      width:683px;
+      height:274px;
+      opacity:0;
+      position:absolute;
+      overflow:hidden;
+      top:0;
+      left:0;
+      right:0;
+      margin:auto;
+      transition:opacity .1s ease;
+      @include one{
+        display:none;
+      }
+      .search-box{
+        width:683px;
+        height:274px;
+        overflow:hidden;
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        margin:auto;
+        transition:transform $running ease , z-index $running ease,;
+        z-index:-1;
+        @include one{
+          display:none;
+        }
+        .search-top{
+          width:100%;
+          height:44px;
+          button{
+            width:40px;
+            height:44px;
+            border:0;
+            background:transparent;
+            float:left;
+            //opacity:0;
+            transform:translate3d(300px,0,0);
+            transition:transform $running ease $late,opacity $running ease $late*2;
+          }
+          #search-text{
+            width:643px;
+            height:44px;
+            border:0;
+            color:#ccc;
+            font-size:14px;
+            background:transparent;
+            //opacity:0;
+            transition:transform $running ease $late,opacity $running ease $late*2;
+            transform:translate3d(100%,0,0);
+          }
+        }
+
+        .search-box-inner{
+          width:683px;
+          height:191px;
+          padding:24px 0 15px;
+          position:absolute;
+          bottom:0;
+          background:#fff;
+          z-index:999;
+          @include one{
+            display:none;
+          }
+          overflow:hidden;
+          span{
+            padding-left:40px;
+            font-size:8px;
+            color:#999;
+            display:block;
+            transform:translate3d(100%,0,0);
+            opacity:0;
+            transition:transform $running ease $late,
+            opacity $running ease $late,
+          ;
+          }
+          .search-box-list{
+            padding-top:5px;
+            width:603px;
+            height:170px;
+            margin:0 auto;
+            .search-item{
+              height:30px;
+              line-height:30px;
+              background:#fff;
+              padding:0 48px;
+              margin:4px -32px;
+              transform:translate3d(300px,0,0);
+              a{
+                display:block;
+                width:100%;
+                height:100%;
+                color:#999;
+              }
+              a:hover{
+                color:#0070c9;
+              }
+              &:hover{
+                background:#F2F2F2;
+              }
+            }
+          }
+        }
+      }
+      @for $i from 1 through 5{
+        .search-box-list :nth-child(#{$i}){
+          transition:transform $running ease ($i/4) * $late,opacity $running ease ($i/4) * $late;
+        }
+      }
+    }
+    .nav-small{
+      width:auto;
+      height:48px;
+      //background:#000;
+      display:none;
+      z-index:99;
+      position:relative;
+      @include ons(){
+        display:block;
+      }
+      text-align:justify;
+      &::after{
+        content:"";
+        width:100%;
+        height:0;
+        line-height:0;
+        font-size:0;
+        display:inline-block;
+      }
+
+      li{
+        display:inline-block;
+        height:48px;
+        position:relative;
+        transition:opacity $running ease $late;
+        text-align:center;
+        cursor:pointer;
+        &:hover{
+          opacity:0.4;
+        }
+        @each $i in map_keys($small-top){
+          &:nth-child(#{$i}){
+            width:map_get($small-top,$i);
+          }
+        }
+        .nav-left{
+          width:48px;
+          height:48px;
+          position:absolute;
+          top:0;
+          bottom:0;
+          left:0;
+          right:0;
+          margin:auto;
+          transition:transform .8s ease;
+          &.xian-click{
+            transform:rotate3d(0,0,1,45deg);
+          }
+          .xian{
+            width:17px;
+            height:1px;
+            background:#ccc;
+            margin:10px auto 0;
+            &.xian-top{
+              margin-top:18px;
+            }
+            transition:transform .8s ease;
+            &.xian-click{
+              transform:rotate3d(0,0,1,45deg);
+              transform-origin:center center;
+            }
+            &.xian-bottom{
+              margin-top:7px;
+              transition:transform .8s ease;
+              &.xian-click{
+                transform:rotate3d(0,0,1,145deg);
+                transform-origin:bottom center;
+              }
+            }
+          }
+        }
+      }
+
+    }
+    .xiala-list{
+      width:100%;
+      max-width:767px;
+      background:#000;
+      position:absolute;
+      top:48px;
+      left:0;
+      opacity:0;
+      z-index:-10;
+      transform:translate3d(0,-100%,0);
+      transition:transform $running ease ,
+                  opacity $running ease;
+      &.block{
+        opacity:1;
+        z-index:199;
+        transform:translate3d(0,0,0);
+      }
+      .xiala-list-item{
+        width:100%;
+        padding:0 48px;
+        box-sizing:border-box;
+        div{
+          width:100%;
+          height:48px;
+          border-bottom:1px solid #333;
+          transform:translate3d(0,-100%,0);
+          &.list-none{
+            transform:translate3d(0,-350px,0);
+          }
+          li{
+            width:100%;
+            height:49px;
+            transition:opacity $running ease ;
+            &.hover{
+              cursor: pointer;
+            }
+            &.hover:hover{
+              opacity:0.5;
+            }
+            @each $i in map_keys($nav-small-map){
+              &.#{$i}{
+                background-image:url("images/" + $i + "_small.svg");
+                background-repeat:no-repeat;
+                background-position:left center;
+              }
+             }
+            input{
+              color:#fff;
+              line-height:48px;
+              font-size:24px;
+              margin-left:30px;
+              border:0;
+              background:#000;
+              cursor:text;
+            }
+            .input-show{
+              width:100%;
+              height:600px;
+              padding:48px;
+              //display:none;
+              position:absolute;
+              top:100px;
+              right:0;
+              &.active{
+                display:block;
+              }
+              p{
+                font-size:12px;
+                color:#999;
+              }
+              .input-show-list{
+                width:100%;
+                height:400px;
+                padding:0 30px;
+                box-sizing:border-box;
+                li{
+                  width:100%;
+                  height:45px;
+                  line-height:45px;
+                  color:#ccc;
+                  box-sizing:border-box;
+                  border-bottom:1px solid #333;
+                  cursor:pointer;
+                  &:hover{
+                    color:#66BBFF;
+                  }
+                }
+              }
+
+            }
+          }
+        }
+      }
+
+    }
+    .nav-list{
+      width:auto;
+      height:44px;
+      margin:0 -10px;
+      text-align:justify;
+      z-index: 999;
+      position: relative;
+      @include ons{
+        display:none;
+      }
+      &::after{
+        content:'';
+        width:100%;
+        height:0;
+        display:inline-block;
+        font-size:0;
+        line-height:0;
+      }
+      li{
+        height:44px;
+        display:inline-block;
+        a{
+          display:block;
+          height:44px;
+          transform:scale(1,1);
+          transition:opacity $running ease,transform $running ease;
+          &:hover{
+            opacity: 0.4;
+          }
+        }
+        @each $i in map_keys($nav-map){
+          .#{$i}{
+            width:map_get($nav-map,$i);
+            background:url("images/" + $i + ".svg") no-repeat center center;
+          }
+        }
+      }
+    }
+  }
+}
+.xiala-list.block .xiala-list-item div{
+  @for $i from 1 through 8{
+    &:nth-child(#{$i}){
+      transform:translate3d(0,0,0);
+      transition:transform $running ease ($i/6) * $late;
+    }
+  }
+}
+.xiala-list.block .xiala-list-item .list-none{
+  @for $i from 1 through 7{
+    &:nth-child(#{$i}){
+      transition:transform $running ease ($i/6) * $late;
+    }
+  }
+}
+//   点击search ，将头部的小图标动画消失
+.header.searching .nav-list .menu{
+  transform:scale(0,0);
+}
+
+//  点击search，动画显示出来的搜索框
+.header.searching .header-search{
+  transform:translate3d(0,0,0);
+  opacity:1;
+  .search-box .search-top #search-text , .search-box .search-top button , .search-box .search-box-inner span , .search-box .search-box-inner .search-box-list .search-item{
+    transform:translate3d(0,0,0);
+    opacity:1;
+  }
+}
+@for $i from 1 through 12{
+  .d-#{$i}{
+    width:percentage($i/12);
+  }
+}
+@include onm{
+  @for $i from 1 through 12{
+    .m-#{$i}{
+      width:percentage($i/12);
+    }
+  }
+}
+@include ons{
+  @for $i from 1 through 12{
+    .s-#{$i}{
+      width:percentage($i/12);
+    }
+  }
+}
+.list{
+  width:100%;
+  border-bottom:2px solid #fff;
+  li{
+    width:25%;
+    border-right:2px solid #fff;
+    @include onm{
+      width:50%;
+    }
+    @include ons{
+      width:100%;
+    }
+    height:200px;
+    box-sizing:border-box;
+    float:left;
+  }
+  li:last-child{
+    border-right:0;
+  }
+}
+
+//   响应式改变图片
+$ads-list:"ios","music","watchos","iphone_upgrade";
+@each $i in $ads-list{
+  //@debug $i;
+  .#{$i}{
+    background:url("images/" + $i + "_large.jpg") no-repeat center center;
+    @include onm{
+      background:url("images/" + $i + "_medium.jpg") no-repeat center center;
+    }
+    @include ons{
+      background:url("images/" + $i + "_small.jpg") no-repeat center center;
+    }
+  }
+}
+//  header 的所有样式
+
+//  banner   的样式开始
+.carousal{
+  width:100%;
+  min-height:300px;
+  height:calc(100vh - 76px);
+  background:#000;
+  position:relative;
+  overflow:hidden;
+  .gallery-slide-wrapper{
+    width:100%;
+    height:100%;
+    position:relative;
+    a{
+      width:100%;
+      height:100%;
+      background-size:contain;
+      position:absolute;
+      top:0;
+      left:0;
+      display:none;
+      transition:transform 2s ease;
+      &.active{
+        z-index:1;
+        display:block;
+        transform:translate3d(0,0,0);
+      }
+      &.right{
+        z-index:10;
+        display:block;
+        transform:translate3d(100%,0,0);
+      }
+      &.leave{
+        z-index:0;
+        display:block;
+        transform:translate3d(-300px,0,0);
+      }
+      &.over-none{
+        display:none;
+      }
+    }
+  }
+  .tab{
+    width:250px;
+    height:50px;
+    position:absolute;
+    bottom:20px;
+    left:0;
+    right:0;
+    margin:auto;
+    z-index:9;
+    .tab-list{
+      width:100%;
+      height:50px;
+      text-align:center;
+      .dot{
+        height:2px;
+        padding:24px 0;
+        margin-right:5px;
+        width:20%;
+        background: #1A1A1A;
+        display:inline-block;
+        background-clip:content-box;
+        &.active{
+          background-color:#808080;
+        }
+      }
+    }
+  }
+}
+$bg-img:(
+        "iphone":#000,
+        "airpods":#fff,
+        "watch":#f2f2f2,
+        "event":#000
+);
+@each $i in map_keys($bg-img){
+  .#{$i}{
+    background: map_get($bg-img,$i) url("images/" + $i + "_large.jpg" ) no-repeat bottom center;
+  }
+}
+
+//    banner   的样式结束
+.bottom{
+  width:100%;
+  background:#f2f2f2;
+  .bottom-box{
+    max-width:980px;
+    padding:0 22px;
+    margin:0 auto;
+    text-align:justify;
+    @include ond{
+      display:none;
+    }
+    &::after{
+      content:"";
+      display:inline-block;
+      width:100%;
+      height:0;
+      font-size:0;
+      line-height:0;
+    }
+    .bottom-box-list{
+      width:20%;
+      float: left;
+      .bottom-list-item{
+        padding-top:20px;
+        p{
+          color:#333;
+          font-size:10px;
+          font-weight: 600;
+        }
+        a{
+          font-size:13px;
+          &:hover{
+            color: #7a7a7a;
+            text-decoration:underline;
+          }
+        }
+      }
+    }
+
+  }
+  .bottom-small{
+    @include ond{
+      display:block;
+    }
+    width:100%;
+    padding:20px 16px 0;
+    box-sizing:border-box;
+    display:none;
+    li{
+      width:100%;
+      line-height:39px;
+      border-bottom:1px solid #E3E3E3;
+      cursor:pointer;
+      overflow:hidden;
+      &.click{
+        height:39px;
+      }
+      h3{
+        font-size:12px;
+        font-weight:400;
+        color:#333;
+        z-index:999;
+        position:relative;
+        background:#F2F2F2;
+        &::after{
+          content:"+";
+          float:right;
+          color:#333;
+        }
+        transition:transform $running ease;
+        &.active:after{
+          transform:rotate3d(0,0,1,45deg);
+        }
+      }
+      .bottom-xiala-list{
+        width:100%;
+        height:auto;
+        padding-bottom:16px;
+        transform:translate3d(0,-100%,0);
+        visibility:visible;
+        opacity:0;
+        z-index:-10;
+        overflow:hidden;
+        &.active{
+          transition:transform $running ease,
+                      opacity $running ease;
+          opacity:1;
+          z-index:1;
+          transform:translate3d(0,0,0);
+        }
+        li{
+          width:100%;
+          height:30px;
+          border:0;
+          a{
+            display:block;
+            padding:0 14px;
+            line-height:30px;
+            color:#333;
+            font-size:10px;
+            &:hover{
+              text-decoration:underline;
+            }
+          }
+        }
+      }
+      }
+    }
+  }
+  .footer{
+    max-width:980px;
+    padding: 0 22px;
+    margin:10px auto 0;
+    .footer-top{
+      width:100%;
+      min-height:30px;
+      color:#999;
+      font-size:11px;
+      border-bottom:1px solid #E3E3E3;
+      line-height:30px;
+      position:relative;
+      @include ons{
+        height:61px;
+        border:0;
+        line-height:18px;
+      }
+      @include one{
+        line-height:20px;
+      }
+      br{
+        display:none;
+        @include one{
+          display:block;
+        }
+      }
+      .flag{
+        position:absolute;
+        top:34px;
+        right:0;
+        line-height: 30px;
+        .flag-link{
+          color:#999;
+        }
+        @include ons{
+          top:30px;
+          left:0;
+        }
+      }
+      a{
+        color:#0070c9;
+        &:hover{
+          color:#000;
+          text-decoration:underline;
+        }
+        @include one{
+         line-height:10px;
+        }
+        &.footer-as{
+          color:#999;
+        }
+      }
+      span{
+        margin:0 10px;
+      }
+    }
+  }
